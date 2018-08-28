@@ -2,6 +2,7 @@
 *.json
 *.vec
 *.zip
+!emotions_model_6.json
 wiki vec
 Mega_Case_Study
 Self_Organizing_Maps
