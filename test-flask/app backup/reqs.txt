@@ -1,0 +1,6 @@
+flask
+nltk
+keras
+gensim
+numpy
+pandas

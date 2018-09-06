@@ -1,10 +1,9 @@
-*.csv
-*.json
-*.vec
-*.zip
-!emotions_model_6.json
-wiki vec
-Mega_Case_Study
-Self_Organizing_Maps
-EmoBank
 data
+example code
+facebook
+keyword
+test-flask backup
+get-pip.py
+keyword_analyzer.py
+emotions-venv
+compressed
