@@ -7,3 +7,4 @@ get-pip.py
 keyword_analyzer.py
 emotions-venv
 compressed
+lmdb-embeddings-master

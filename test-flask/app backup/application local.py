@@ -1,5 +1,3 @@
-# coding: utf8
-import sys
 from flask import Flask, jsonify
 import nltk
 import boto3
@@ -9,27 +7,21 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.stem import wordnet
 from keras.models import model_from_json
 from keras.models import load_model
-import os
 from lmdb_embeddings.reader import LmdbEmbeddingsReader
-import lmdb_embeddings.exceptions as exceptions
+from lmdb_embeddings.exceptions import MissingWordError
 import pandas as pd
 import numpy as np
+import os
 import tensorflow as tf
 import json
-import copy
 
-#Note: Cwd is /opt/python/bundle/Xnum/app where Xnum is a digit
 orig_cwd=os.getcwd()
-orig_cwd=copy.deepcopy(orig_cwd)
 
 global graph
 graph = tf.get_default_graph()
 
-path="/opt/data"
-os.chdir(path)
-embeddings=LmdbEmbeddingsReader('lmdb_databases')
-os.chdir(orig_cwd)
 
+embeddings=LmdbEmbeddingsReader('../data/lmdb_databases')
 negative = ['not', 'neither', 'nor', 'but', 'however', 'although', 'nonetheless', 'despite', 'except',
                          'even though', 'yet']
 stop = set(stopwords.words('english'))
@@ -58,15 +50,12 @@ def vec_word(li):
         success=True
         try:
             vector = embeddings.get_word_vector(word)
-        except exceptions.MissingWordError:
+        except MissingWordError:
             # 'google' is not in the database.
             success=False
             pass
         if success==True:
             total_vecs.append(vector)
-    if len(li)==1:
-        if success==False:
-            return 'not_found'
     return np.array(total_vecs)
 
 def prediction(text):
@@ -82,7 +71,6 @@ def prediction(text):
         sadness=pred[3]
         response_dict = {'anger': anger, 'fear': fear, 'joy': joy, 'sadness': sadness, 'surprise': 0}
     #return jsonify(response_dict)
-    #For Python2.7 compatability
     return str(response_dict)
 
 def transform_t6_input(text):
@@ -90,7 +78,7 @@ def transform_t6_input(text):
     splits=word_splits(X)
     numbers_series=splits.apply(vec_word)
     num_docs=len(numbers_series)
-    if len(numbers_series[0])!=0:
+    if numbers_series[0].size!=0:
         for index, doc in enumerate(numbers_series):
             while len(doc)<7:
                 orig_doc=doc.copy()
@@ -127,7 +115,7 @@ application = Flask(__name__)
 
 # add a rule for the index page.
 application.add_url_rule('/', 'index', (lambda: header_text +
-      str(orig_cwd)+instructions + footer_text))
+      instructions + footer_text))
 
 # add a rule when the page is accessed with a name appended to the site
 # URL.

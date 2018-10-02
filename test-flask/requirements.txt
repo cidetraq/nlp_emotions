@@ -24,3 +24,14 @@ s3transfer==0.1.13
 smart-open==1.6.0
 urllib3==1.23
 simplejson==3.16.0
+lmdb==0.94
+atomicwrites==1.2.1 
+attrs==18.2.0 
+more-itertools==4.3.0 
+pathlib2==2.3.2 
+pluggy==0.7.1 
+py==1.6.0 
+pytest==3.8.0 
+scandir==1.9.0
+pathlib==1.0.1
+spacy==2.0.12

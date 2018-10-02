@@ -1,0 +1,35 @@
+﻿commands:
+  download and install numpy:
+    command: sudo pip install numpy
+  install nltk: 
+    command: sudo pip install nltk
+    ignoreErrors: true
+  install nltk stopwords:
+    command: sudo python -m nltk.downloader -d /usr/share/nltk_data stopwords
+    ignoreErrors: true
+  install nltk wordnet:
+    command: sudo python -m nltk.downloader -d /usr/share/nltk_data wordnet
+    ignoreErrors: true
+  download and install pytest:
+    command: sudo pip install pytest
+  download S3 data unpack and install lmdb:
+    command: |
+      cd ../../
+      sudo mkdir data
+      sudo aws s3 sync s3://flasklstm data
+      sudo unzip lmdb-embeddings-master.zip
+      sudo rm lmdb-embeddings-master.zip
+      cd lmdb-embeddings-master
+      #sudo python setup.py install
+    #test: [ ! -e setup.py]
+  install c++:
+    command: |
+      sudo yum install gcc-c++
+  install lmdb:
+    command: sudo pip install lmdb
+  install libffi-devel:
+    command: sudo yum install libffi-devel
+
+packages:
+  yum:
+    python27-devel.x86_64: []
