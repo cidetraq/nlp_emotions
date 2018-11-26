@@ -8,3 +8,4 @@ keyword_analyzer.py
 emotions-venv
 compressed
 lmdb-embeddings-master
+BERT/BERT_gitignore
